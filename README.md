@@ -108,3 +108,72 @@ The system was evaluated to verify functionality, data flow, and integration acr
 - Limited real-time optimisation in monitoring outputs  
 
 These observations guided system refinement in subsequent iterations.
+## 🛠️Iterative Development and Enhancements
+The system was improved through three structured iterations based on testing results.
+
+### 🔁 Iteration 1: Data Refinement and Chart Improvement 
+
+- Data cleaning logic in Node-RED was applied on sensor data preprocess before it could 
+be sent.
+
+<p align="center">
+  <img src="Images/Node-RED flow showing data cleaning before ThingSpeak upload .png" width="700"/>
+</p>
+
+- ThingSpeak visualisations were simplified by adjusting the settings in the gauge chart 
+and control to show environmental readings that could be more easily understood.
+<p align="center">
+  <img src="Images/ThingSpeak charts.png" width="700"/>
+</p>
+
+- Power BI dashboard was updated with a clean and formatted environmental data 
+visualised with augmented visualisations, including trends and system status.
+<p align="center">
+  <img src="Images/Power BI dashboard(1).png" width="700"/>
+</p>
+
+### ⚙ Iteration 2: Enhanced Visualisation and Analytical Improvement 
+
+- The Node-RED flow was adjusted adding to the dashboard logic and further data 
+cleaning and other monitoring capabilities to improve real-time visualisation and 
+readability of the system.
+<p align="center">
+  <img src="Images/Updated Node-RED flow.png" width="700"/>
+</p>
+
+- The Node-RED dashboard was modified to display monitoring outputs easier, more 
+visually appealing formats and system status displays.
+
+<p align="center">
+  <img src="Images/Updated Node-RED dashboard.png" width="800"/>
+</p>
+
+- ThingSpeak visualisations were enhanced with MATLAB analytics to show the trend 
+of the various variables and their relationship with the soil moisture to the temperature, 
+the light intensity to rainfall and pH of the soil to the salinity.
+
+<p align="center">
+  <img src="Images/ThingSpeak MATLAB visualisations .png" width="800"/>
+</p>
+
+- Power BI dashboard was enhanced with multi-variable analysis in the shape of a 
+combination chart, distribution of pump status, and other parameters, and optimized thevisuals with various types of charts.
+
+<p align="center">
+  <img src="Images/Power BI dashboard(2).png" width="800"/>
+</p>
+
+### 🎯 Iteration 3:  Final Dashboard Refinement and Real-Time Monitoring Enhancement 
+
+- The Power BI dashboard was altered to coherent theme and standard layout with 
+rounded containers to make visual layout more organised and professional.
+
+- Interactive slicers were added to date range and pump status to allow users to easily 
+filter environmental data and analyse system behaviour in a more efficient manner.
+
+<p align="center">
+  <img src="Images/Final Power BI dashboard.png" width="800"/>
+</p>
+<p align="center">
+  <img src="Images/Power BI auto-refresh setup .png" width="600"/>
+</p>
