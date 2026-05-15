@@ -65,7 +65,7 @@ communication between the system and the cloud platform.
   <img src="Images/ThingSpeak channel setup .png" width="600"/>
 </p>
 
-- Real-Time Data Monitoring : The IoT system allowed ensuring that the information would always be available in the 
+- Real-Time Data Monitoring: The IoT system allowed ensuring that the information would always be available in the 
 established channel. The integration of the clouds and real-time data was successful 
 and verified with the help of the graphical visualisations of the soil moisture and 
 temperature.
@@ -73,7 +73,7 @@ temperature.
   <img src="Images/ThingSpeak graphs .png" width="800"/>
 </p>
 
-- Data Processing and Control Logic : Node-RED was used as a data processing and control logic. Sensors data have been 
+- Data Processing and Control Logic: Node-RED was used as a data processing and control logic. Sensors data have been 
 collected and presented in payloads and farm logic has been executed to operate 
 irrigation conditions. Dashboard elements such as gauges and trends were used to 
 monitor system parameters.
@@ -83,3 +83,28 @@ monitor system parameters.
 <p align="center">
   <img src="Images/Node-RED dashboard.png" width="800"/>
 </p>
+
+- Dashboard Development: A monitoring dashboard was developed using Power BI to visualise environment 
+parameters and system performance. The dashboard illustrates the trends in soil 
+moisture, temperature and humidity, that can be used to analyse the state of the irrigation 
+and overall system.
+
+<p align="center">
+  <img src="Images/Power BI dashboard(0).png" width="800"/>
+</p>
+
+## 🧪Testing and Feedback
+
+The system was evaluated to verify functionality, data flow, and integration across all components.
+
+- 🔍 Verified sensor-to-cloud data transmission via Node-RED and ThingSpeak  
+- ⚙ Tested MQTT communication stability between devices and gateway  
+- 📊 Evaluated Power BI dashboard responsiveness and data accuracy
+
+<h3> Key feedback identified: </h3>
+
+- Raw sensor data required cleaning for consistency  
+- Dashboard visuals lacked clarity and structure  
+- Limited real-time optimisation in monitoring outputs  
+
+These observations guided system refinement in subsequent iterations.
