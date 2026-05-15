@@ -179,3 +179,18 @@ filter environmental data and analyse system behaviour in a more efficient manne
 </p>
 
 [Power BI Link to Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZTkxMmQ0ZTctYzU4YS00MDQ3LWEwMDktNzRjOWFkMTAwNTgxIiwidCI6IjgwMWU5ZjhjLThlMDYtNGFjMC05NjRlLWJkZDRkZGRhOGM4NiIsImMiOjl9)
+
+## 🖥 Tools & Technologies Used
+
+- ThingSpeak (Cloud IoT Platform)  
+- Node-RED (Automation Engine)  
+- Power BI (Data Visualization)  
+- MQTT Protocol  
+- REST APIs  
+- Cisco Packet Tracer (Network Simulation)  
+- MCU-Based Sensor Nodes  
+- DLG100 Gateway  
+
+## ⚠️ Disclaimer
+This repository was developed for academic and educational purposes to demonstrate the implementation of Internet of Things (IoT) technologies within a simulated smart agriculture environment.
+All environmental data, farm infrastructure, irrigation scenarios, monitoring dashboards, and communication workflows presented in this repository are fictional and intended solely for demonstration purposes. No real agricultural infrastructure or operational farm systems were used during the development of this project.
