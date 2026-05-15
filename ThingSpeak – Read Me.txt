@@ -1,0 +1,45 @@
+**ThingSpeak – Read Me**
+
+**Project Title:** IoT Smart Irrigation System for Mehrano Agri Farms Ltd
+**Platform Used:** ThingSpeak
+
+**Overview:**
+ThingSpeak is used as a cloud-based IoT platform in the smart irrigation system to store, analyse and visualise real-time environmental data collected from field sensors.
+
+**Purpose:**
+The platform supports centralised monitoring of soil moisture, temperature and humidity data to assist automated irrigation decision-making within the IoT system.
+
+**System Integration:**
+Sensor data is transmitted from microcontroller nodes through MQTT and processed using Node-RED. The processed data is then sent to ThingSpeak via REST API for storage and visualisation.
+
+**Key Features Implemented:**
+
+* Real-time data upload from IoT sensors
+* Cloud storage using ThingSpeak channels
+* Data visualisation using charts and graphs
+* Integration with Node-RED for data processing
+* Support for irrigation decision logic based on threshold values
+
+**System Workflow:**
+
+1. Sensors collect environmental data (soil moisture, temperature, humidity)
+2. Data is processed in Node-RED
+3. MQTT/REST API is used for transmission
+4. ThingSpeak stores incoming data in structured fields
+5. Data is visualised for monitoring farm conditions
+
+**Benefits:**
+
+* Enables real-time monitoring of agricultural conditions
+* Supports data-driven irrigation decisions
+* Improves system visibility and control
+* Reduces manual monitoring effort
+
+**Limitations:**
+
+* Requires stable internet connectivity
+* Limited advanced analytics compared to external tools
+* Dependent on API rate limits in free version
+
+**Conclusion:**
+ThingSpeak acts as the cloud layer in the IoT architecture, enabling efficient data storage, monitoring and visualisation for the smart irrigation system at Mehrano Agri Farms Ltd.
