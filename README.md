@@ -42,3 +42,44 @@ The system follows a **three-layer IoT architecture**:
 5. 🚰 Automated irrigation control triggered  
 6. 📊 Power BI visualizes system performance  
 
+## 🔄 3.1 System Implementation (Initial Deployment)
+The initial phase focused on establishing the IoT smart irrigation system in a simulated environment for Mehrano Agri Farms Ltd.
+- IoT System Configuration: Cisco Packet Tracer was used to set up an IoT environment that incorporated 
+environmental sensors such as soil moisture, temperature, humidity, and other 
+parameters with the MCU-PT microcontroller. The DLG100 gateway became linked 
+with aggregating sensor data and MQTT service (SBC-PT) was set up to allow real 
+time communication between devices and the gateway.
+<p align="center">
+  <img src="Images/IoT system setup.png" width="700"/>
+</p>
+
+- Cloud Channel and API Configuration: The ThingSpeak was setup as a cloud channel and had several data fields which 
+included soil moisture, temperature, humidity, pH, salinity, light intensity, rainfall and 
+pump status. Read and write API keys were generated which will aid in securing 
+communication between the system and the cloud platform. 
+
+<p align="center">
+  <img src="Images/ThingSpeak API key configuration.png" width="700"/>
+</p>
+<p align="center">
+  <img src="Images/ThingSpeak channel setup .png" width="700"/>
+</p>
+
+- Real-Time Data Monitoring : The IoT system allowed ensuring that the information would always be available in the 
+established channel. The integration of the clouds and real-time data was successful 
+and verified with the help of the graphical visualisations of the soil moisture and 
+temperature.
+<p align="center">
+  <img src="Images/ThingSpeak graphs .png" width="700"/>
+</p>
+
+- Data Processing and Control Logic : Node-RED was used as a data processing and control logic. Sensors data have been 
+collected and presented in payloads and farm logic has been executed to operate 
+irrigation conditions. Dashboard elements such as gauges and trends were used to 
+monitor system parameters.
+<p align="center">
+  <img src="Images/Node-RED flow .png" width="700"/>
+</p>
+<p align="center">
+  <img src="Images/Node-RED dashboard.png" width="700"/>
+</p>
