@@ -1,0 +1,591 @@
+[
+    {
+        "id": "e74e963b5685fd3d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f4f2bd1644bf31b9",
+        "type": "ui-base",
+        "name": "Mehrano Smart Farm Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "01391a33083d4708",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#ffffff",
+            "groupBg": "#000000",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "4663a1e8ab89d409",
+        "type": "ui-page",
+        "name": "Mehrano Smart Farm Dashboard",
+        "ui": "f4f2bd1644bf31b9",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "01391a33083d4708",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "90a8bef7374bc3b7",
+        "type": "ui-group",
+        "name": "Live Conditions",
+        "page": "4663a1e8ab89d409",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "74dde2d562ad0ab7",
+        "type": "ui-group",
+        "name": "Trends",
+        "page": "4663a1e8ab89d409",
+        "width": 3,
+        "height": 1,
+        "order": 2,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "3b1686d3f8bb92af",
+        "type": "ui-group",
+        "name": "Farm Status",
+        "page": "4663a1e8ab89d409",
+        "width": 3,
+        "height": 1,
+        "order": 3,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "2da963e6608ce8f3",
+        "type": "inject",
+        "z": "e74e963b5685fd3d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 360,
+        "wires": [
+            [
+                "178022d25cacf86f"
+            ]
+        ]
+    },
+    {
+        "id": "178022d25cacf86f",
+        "type": "function",
+        "z": "e74e963b5685fd3d",
+        "name": "Data Fetch",
+        "func": "msg.payload = {\n    soil_moisture: +(Math.random() * (90 - 10) + 10).toFixed(2),\n    temperature: +(Math.random() * (45 - 15) + 15).toFixed(2),\n    humidity: +(Math.random() * (90 - 20) + 20).toFixed(2),\n    soil_ph: +(Math.random() * (8.5 - 5.5) + 5.5).toFixed(2),\n    salinity: +(Math.random() * (3.0 - 0.1) + 0.1).toFixed(2),\n    light_intensity: Math.round(Math.random() * (1200 - 200) + 200),\n    rainfall: +(Math.random() * 20).toFixed(2),\n    pump_status: Math.random() < 0.5 ? 0 : 1\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "d17691f2720b1596"
+            ]
+        ]
+    },
+    {
+        "id": "3eab3d5286a0cef8",
+        "type": "function",
+        "z": "e74e963b5685fd3d",
+        "name": "Thingspeak Upload",
+        "func": "let d = msg.payload;\n\nmsg.method = \"POST\";\nmsg.url = \"https://api.thingspeak.com/update.json\";\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\"\n};\n\nmsg.payload =\n    \"api_key=I8EJ24Z2KNWODT4K\" +\n    \"&field1=\" + encodeURIComponent(d.soil_moisture) +\n    \"&field2=\" + encodeURIComponent(d.temperature) +\n    \"&field3=\" + encodeURIComponent(d.humidity) +\n    \"&field4=\" + encodeURIComponent(d.soil_ph) +\n    \"&field5=\" + encodeURIComponent(d.salinity) +\n    \"&field6=\" + encodeURIComponent(d.light_intensity) +\n    \"&field7=\" + encodeURIComponent(d.rainfall) +\n    \"&field8=\" + encodeURIComponent(d.pump_status);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 360,
+        "wires": [
+            [
+                "e3abe5fa5d96f946"
+            ]
+        ]
+    },
+    {
+        "id": "e3abe5fa5d96f946",
+        "type": "http request",
+        "z": "e74e963b5685fd3d",
+        "name": "HTTP Request",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1240,
+        "y": 360,
+        "wires": [
+            [
+                "89181017d7222a12"
+            ]
+        ]
+    },
+    {
+        "id": "89181017d7222a12",
+        "type": "debug",
+        "z": "e74e963b5685fd3d",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1420,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d17691f2720b1596",
+        "type": "function",
+        "z": "e74e963b5685fd3d",
+        "name": "Farm Logic",
+        "func": "let d = msg.payload;\n\n// 1. Automation Logic\nd.pump_status = parseFloat(d.soil_moisture) < 30 ? 1 : 0;\nd.pump_label = d.pump_status === 1 ? \"ON\" : \"OFF\";\nd.irrigation_required = d.soil_moisture < 30 ? \"YES\" : \"NO\";\nd.latest_time = new Date().toLocaleString();\n\n// 2. THE BRIDGE: Map current data to the names your template expects\n// We force them to be actual Numbers so the math (temp / 50) works\nd.temp = parseFloat(d.temperature); \nd.soil = parseFloat(d.soil_moisture);\n\nmsg.payload = d;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "3643ce9184909fc7",
+                "8daf26b6b3ab0973",
+                "538f1ca90b887f3a"
+            ]
+        ]
+    },
+    {
+        "id": "8daf26b6b3ab0973",
+        "type": "function",
+        "z": "e74e963b5685fd3d",
+        "name": "Data Cleaning",
+        "func": "let d = msg.payload;\n\n// reject invalid values\nif (d.soil_moisture < 0 || d.soil_moisture > 100) return null;\nif (d.temperature < -10 || d.temperature > 60) return null;\nif (d.humidity < 0 || d.humidity > 100) return null;\nif (d.soil_ph < 0 || d.soil_ph > 14) return null;\nif (d.salinity < 0) return null;\nif (d.light_intensity < 0) return null;\nif (d.rainfall < 0) return null;\n\n// use previous valid values if current values are missing\nlet prev = context.get(\"prevData\") || {};\n\nd.soil_moisture = (d.soil_moisture === undefined || d.soil_moisture === null) ? prev.soil_moisture : d.soil_moisture;\nd.temperature = (d.temperature === undefined || d.temperature === null) ? prev.temperature : d.temperature;\nd.humidity = (d.humidity === undefined || d.humidity === null) ? prev.humidity : d.humidity;\nd.soil_ph = (d.soil_ph === undefined || d.soil_ph === null) ? prev.soil_ph : d.soil_ph;\nd.salinity = (d.salinity === undefined || d.salinity === null) ? prev.salinity : d.salinity;\nd.light_intensity = (d.light_intensity === undefined || d.light_intensity === null) ? prev.light_intensity : d.light_intensity;\nd.rainfall = (d.rainfall === undefined || d.rainfall === null) ? prev.rainfall : d.rainfall;\nd.pump_status = (d.pump_status === undefined || d.pump_status === null) ? prev.pump_status : d.pump_status;\n\n// smooth key values\nlet prevMoisture = context.get(\"prevMoisture\");\nlet prevTemp = context.get(\"prevTemp\");\n\nif (prevMoisture !== undefined) {\n    d.soil_moisture = +(((d.soil_moisture + prevMoisture) / 2).toFixed(2));\n}\nif (prevTemp !== undefined) {\n    d.temperature = +(((d.temperature + prevTemp) / 2).toFixed(2));\n}\n\ncontext.set(\"prevMoisture\", d.soil_moisture);\ncontext.set(\"prevTemp\", d.temperature);\ncontext.set(\"prevData\", d);\n\nmsg.payload = d;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 360,
+        "wires": [
+            [
+                "3eab3d5286a0cef8"
+            ]
+        ]
+    },
+    {
+        "id": "1cdf8b981fe755fd",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "3b1686d3f8bb92af",
+        "page": "",
+        "ui": "",
+        "name": "System Temp",
+        "order": 2,
+        "width": "3",
+        "height": 3,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #000; padding: 20px; border-radius: 12px; border: 2px solid #222; height: 100%; display: flex; align-items: center; justify-content: space-between; box-shadow: inset 0 0 15px rgba(0,255,0,0.05);\">\n    \n    <div style=\"text-align: left;\">\n        <div style=\"color: #444; font-size: 9px; font-weight: bold; letter-spacing: 1px;\">SYSTEM TEMP</div>\n        <div style=\"font-size: 36px; font-weight: bold; color: #fff; font-family: monospace;\">\n            {{ msg.payload?.temp }}<span style=\"color: #ff3d00;\">°</span>\n        </div>\n        <div :style=\"{ color: msg.payload?.temp > 38 ? '#ff3d00' : '#00e676', fontSize: '10px', fontWeight: 'bold' }\">\n            STATUS: {{ msg.payload?.temp > 38 ? 'WARN' : 'OK' }}\n        </div>\n    </div>\n\n    <div style=\"display: flex; flex-direction: column-reverse; gap: 4px; width: 25px; height: 120px;\">\n        <div v-for=\"i in 10\" :key=\"i\"\n            :style=\"{\n                height: '8px',\n                width: '100%',\n                borderRadius: '2px',\n                transition: 'all 0.3s ease',\n                backgroundColor: (msg.payload?.temp_percent >= (i * 10)) \n                    ? (i < 7 ? '#00e676' : i < 9 ? '#ffea00' : '#ff3d00') \n                    : '#111',\n                boxShadow: (msg.payload?.temp_percent >= (i * 10)) \n                    ? '0 0 8px currentColor' : 'none',\n                color: (i < 7 ? '#00e676' : i < 9 ? '#ffea00' : '#ff3d00')\n            }\">\n        </div>\n    </div>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1380,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3643ce9184909fc7",
+        "type": "function",
+        "z": "e74e963b5685fd3d",
+        "name": "Dashboard Logic",
+        "func": "// 1. Extract raw values for easier math\nconst d = msg.payload;\n\nmsg.payload = {\n    // Existing Data\n    soil_moisture: parseFloat(d.soil_moisture),\n    temperature: parseFloat(d.temperature),\n    temp: parseFloat(d.temperature),\n    temp_percent: Math.min(Math.max((parseFloat(d.temperature) / 60) * 100, 0), 100),\n\n    // NEW DATA: Environmental Metrics\n    humidity: parseFloat(d.humidity),\n    soil_ph: parseFloat(d.soil_ph),\n    salinity: parseFloat(d.salinity),\n    light_intensity: parseInt(d.light_intensity),\n    rainfall: parseFloat(d.rainfall),\n\n    // NEW DATA: Normalized Percentages (for bars/gauges)\n    // Light: 200-1200 Lux range mapped to 0-100%\n    light_percent: Math.min(Math.max(((d.light_intensity - 200) / 1000) * 100, 0), 100),\n    // Salinity: 0-3 dS/m range mapped to 0-100%\n    salinity_percent: Math.min(Math.max((d.salinity / 3) * 100, 0), 100),\n\n    // Control Logic\n    pump_status: d.pump_status,\n    pump_label: d.pump_status === 1 ? \"ON\" : \"OFF\",\n    irrigation_required: d.soil_moisture < 30 ? \"YES\" : \"NO\",\n    status: d.soil_moisture < 20 ? \"CRITICAL\" : d.soil_moisture < 30 ? \"WARNING\" : \"NORMAL\",\n    timestamp: new Date().toLocaleString()\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 320,
+        "wires": [
+            [
+                "1cdf8b981fe755fd",
+                "07ba3d3ac11f14ef",
+                "50eb5d0288032d6c",
+                "accdb0dfb6bf4e86",
+                "5fc89298434477e4",
+                "f6ec7e3628738464",
+                "3a906bd0329b7ef7",
+                "4997149b34212753",
+                "bb433f743f4659ba",
+                "588b12201c42db18",
+                "3864cace8f5b5a3e"
+            ]
+        ]
+    },
+    {
+        "id": "07ba3d3ac11f14ef",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "3b1686d3f8bb92af",
+        "page": "",
+        "ui": "",
+        "name": "Soil Moisture",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #000; padding: 20px; border-radius: 12px; border: 2px solid #222; height: 100%; display: flex; align-items: center; justify-content: space-between; box-shadow: inset 0 0 15px rgba(0,150,255,0.05);\">\n    \n    <div style=\"text-align: left;\">\n        <div style=\"color: #444; font-size: 9px; font-weight: bold; letter-spacing: 1px;\">SOIL MOISTURE</div>\n        <div style=\"font-size: 36px; font-weight: bold; color: #fff; font-family: monospace;\">\n            {{ msg.payload?.soil_moisture }}<span style=\"color: #00b0ff;\">%</span>\n        </div>\n        <div :style=\"{ color: msg.payload?.soil_moisture < 30 ? '#ff3d00' : '#00e676', fontSize: '10px', fontWeight: 'bold' }\">\n            LEVEL: {{ msg.payload?.status }}\n        </div>\n    </div>\n\n    <div style=\"display: flex; flex-direction: column-reverse; gap: 4px; width: 25px; height: 120px;\">\n        <div v-for=\"i in 10\" :key=\"i\"\n            :style=\"{\n                height: '8px',\n                width: '100%',\n                borderRadius: '2px',\n                transition: 'all 0.3s ease',\n                backgroundColor: (msg.payload?.soil_moisture >= (i * 10)) \n                    ? (i < 4 ? '#ff3d00' : i < 6 ? '#ffea00' : '#00b0ff') \n                    : '#111',\n                boxShadow: (msg.payload?.soil_moisture >= (i * 10)) \n                    ? '0 0 8px currentColor' : 'none',\n                color: (i < 4 ? '#ff3d00' : i < 6 ? '#ffea00' : '#00b0ff')\n            }\">\n        </div>\n    </div>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1010,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "50eb5d0288032d6c",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "74dde2d562ad0ab7",
+        "page": "",
+        "ui": "",
+        "name": "Irrigation Pump",
+        "order": 3,
+        "width": 1,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #000; padding: 20px; border-radius: 12px; border: 2px solid #222; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden;\">\n    \n    <div style=\"color: #444; font-size: 9px; font-weight: bold; letter-spacing: 1px; margin-bottom: 10px;\">IRRIGATION PUMP</div>\n    \n    <div :style=\"{\n        fontSize: '32px', \n        fontWeight: 'bold', \n        color: msg.payload?.pump_status === 1 ? '#00e676' : '#444',\n        textShadow: msg.payload?.pump_status === 1 ? '0 0 20px #00e676' : 'none',\n        transition: 'all 0.5s ease'\n    }\">\n        {{ msg.payload?.pump_label }}\n    </div>\n\n    <div v-if=\"msg.payload?.pump_status === 1\" \n         style=\"margin-top: 15px; width: 10px; height: 10px; background: #00e676; border-radius: 50%; animation: pulse 1.5s infinite;\">\n    </div>\n\n    <style>\n        @keyframes pulse {\n            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }\n            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 230, 118, 0); }\n            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }\n        }\n    </style>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1200,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "accdb0dfb6bf4e86",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "3b1686d3f8bb92af",
+        "page": "",
+        "ui": "",
+        "name": "System Heatlh",
+        "order": 3,
+        "width": 4,
+        "height": 2,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #000; padding: 15px; border-radius: 12px; border: 2px solid #222; height: 100%; font-family: monospace;\">\n    <div style=\"display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 10px;\">\n        <span style=\"color: #666; font-size: 10px;\">SYSTEM LOG</span>\n        <span style=\"color: #00e676; font-size: 10px;\">● ONLINE</span>\n    </div>\n    \n    <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n        <div style=\"display: flex; justify-content: space-between;\">\n            <span style=\"color: #aaa;\">Irrigation Required:</span>\n            <span :style=\"{ color: msg.payload?.irrigation_required === 'YES' ? '#ff3d00' : '#aaa' }\">\n                {{ msg.payload?.irrigation_required }}\n            </span>\n        </div>\n        \n        <div style=\"display: flex; justify-content: space-between;\">\n            <span style=\"color: #aaa;\">Last Update:</span>\n            <span style=\"color: #444; font-size: 11px;\">{{ msg.payload?.timestamp }}</span>\n        </div>\n    </div>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1020,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5fc89298434477e4",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "90a8bef7374bc3b7",
+        "page": "",
+        "ui": "",
+        "name": "Atmosphere Card",
+        "order": 3,
+        "width": 3,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: linear-gradient(135deg, #050505 0%, #0a0a0f 100%); padding: 18px; border-radius: 14px; border: 1px solid #1a1a2e; height: 100%; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden;\">\n    \n    <div style=\"z-index: 1;\">\n        <div style=\"color: #4c566a; font-size: 9px; font-weight: bold; letter-spacing: 2px;\">ATMOSPHERE</div>\n        <div style=\"font-size: 32px; font-weight: bold; color: #fff; font-family: monospace; margin: 5px 0;\">\n            {{ msg.payload?.humidity }}<span style=\"color: #5e81ac; font-size: 18px;\">% RH</span>\n        </div>\n        <div style=\"color: #81a1c1; font-size: 11px; font-weight: bold; display: flex; align-items: center; gap: 5px;\">\n            <span v-if=\"msg.payload?.rainfall > 0\" style=\"animation: blink 1s infinite;\">🌧️</span>\n            PRECIP: {{ msg.payload?.rainfall }} mm\n        </div>\n    </div>\n\n    <div style=\"width: 80px; height: 100px; background: #111; border: 2px solid #222; border-radius: 6px; position: relative; overflow: hidden;\">\n        <div :style=\"{\n            position: 'absolute', bottom: 0, width: '100%',\n            height: (msg.payload?.rainfall * 5) + '%',\n            background: 'linear-gradient(to top, #5e81ac, #88c0d0)',\n            transition: 'height 1.5s ease-out',\n            boxShadow: '0 0",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1190,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f6ec7e3628738464",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "90a8bef7374bc3b7",
+        "page": "",
+        "ui": "",
+        "name": "Solar-Sky",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #050505; border-radius: 20px; border: 1px solid #222; width: 100%; height: 320px; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9);\">\n    \n    <div :style=\"{\n        position: 'absolute', top: '-50%', left: '-50%', width: '200%', height: '200%',\n        background: 'radial-gradient(circle, rgba(255,234,0,0.05) 0%, transparent 70%)',\n        animation: 'rotate 10s linear infinite'\n    }\"></div>\n\n    <div :style=\"{\n        width: '120px', height: '120px', borderRadius: '50%',\n        background: 'radial-gradient(circle at 30% 30%, #fff700, #ff8c00)',\n        boxShadow: '0 0 60px ' + (msg.payload?.light_intensity > 500 ? 'rgba(255,234,0,0.6)' : 'rgba(255,234,0,0.2)'),\n        display: 'flex', alignItems: 'center', justifyContent: 'center',\n        animation: 'pulse 3s infinite ease-in-out', zIndex: '2',\n        border: '1px solid rgba(255,255,255,0.2)'\n    }\">\n        <div style=\"color: #000; font-family: monospace; font-weight: bold; text-align: center;\">\n            <div style=\"font-size: 10px;\">LUX</div>\n            <div style=\"font-size: 22px;\">{{msg.payload?.light_intensity}}</div>\n        </div>\n    </div>\n\n    <div style=\"z-index: 3; margin-top: 30px; text-align: center; width: 100%;\">\n        <div style=\"color: #666; font-size: 11px; letter-spacing: 4px; font-weight: bold;\">ATMOSPHERIC SCAN</div>\n        <div style=\"display: flex; justify-content: space-around; padding: 20px 40px;\">\n            <div>\n                <div style=\"color: #00e5ff; font-size: 24px; font-weight: bold; font-family: monospace;\">{{msg.payload?.humidity}}%</div>\n                <div style=\"color: #444; font-size: 9px;\">HUMIDITY</div>\n            </div>\n            <div style=\"width: 1px; background: #222;\"></div>\n            <div>\n                <div style=\"color: #fff; font-size: 24px; font-weight: bold; font-family: monospace;\">{{msg.payload?.rainfall}}</div>\n                <div style=\"color: #444; font-size: 9px;\">RAIN MM</div>\n            </div>\n        </div>\n    </div>\n\n    <style>\n        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }\n        @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(255,234,0,0.3); } 50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(255,234,0,0.6); } }\n    </style>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1360,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3a906bd0329b7ef7",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "74dde2d562ad0ab7",
+        "page": "",
+        "ui": "",
+        "name": "Sub-Soil",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #0a0a0a; border-radius: 20px; border: 2px solid #151515; width: 100%; height: 320px; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; gap: 25px;\">\n    \n    <div style=\"border-left: 4px solid #00e676; padding-left: 15px;\">\n        <div style=\"color: #fff; font-size: 18px; font-weight: bold; font-family: monospace;\">SOIL COMPOSITION</div>\n        <div style=\"color: #444; font-size: 10px; letter-spacing: 2px;\">REAL-TIME CHEMICAL ANALYSIS</div>\n    </div>\n\n    <div style=\"flex: 1; background: #050505; border-radius: 12px; padding: 15px; box-shadow: inset 5px 5px 15px rgba(0,0,0,0.8), inset -2px -2px 10px rgba(255,255,255,0.02); display: flex; flex-direction: column; justify-content: center;\">\n        <div style=\"display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;\">\n            <span style=\"color: #aaa; font-size: 12px;\">Hydrogen Potential (pH)</span>\n            <span :style=\"{ color: '#00e676', fontSize: '28px', fontWeight: 'bold', fontFamily: 'monospace' }\">{{msg.payload?.soil_ph}}</span>\n        </div>\n        <div style=\"height: 12px; background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #222;\">\n            <div :style=\"{ \n                width: (msg.payload?.soil_ph / 14 * 100) + '%', height: '100%', \n                background: 'linear-gradient(90deg, #ff3d00, #00e676, #00b0ff)',\n                transition: 'width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'\n            }\"></div>\n        </div>\n    </div>\n\n    <div style=\"flex: 1; background: #050505; border-radius: 12px; padding: 15px; box-shadow: inset 5px 5px 15px rgba(0,0,0,0.8), inset -2px -2px 10px rgba(255,255,255,0.02); display: flex; flex-direction: column; justify-content: center;\">\n        <div style=\"display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;\">\n            <span style=\"color: #aaa; font-size: 12px;\">Salinity Level (dS/m)</span>\n            <span style=\"color: #fff; font-size: 28px; font-weight: bold; font-family: monospace;\">{{msg.payload?.salinity}}</span>\n        </div>\n        <div style=\"height: 12px; background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #222;\">\n            <div :style=\"{ \n                width: (msg.payload?.salinity_percent || 0) + '%', height: '100%', \n                background: 'linear-gradient(90deg, #333, #fff)',\n                boxShadow: '0 0 15px rgba(255,255,255,0.2)',\n                transition: 'width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'\n            }\"></div>\n        </div>\n    </div>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1480,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4997149b34212753",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "74dde2d562ad0ab7",
+        "page": "",
+        "ui": "",
+        "name": "Biosphere",
+        "order": 2,
+        "width": 3,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #050505; border-radius: 24px; border: 1px solid #222; width: 100%; height: 400px; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 25px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);\">\n    \n    <div style=\"width: 100%; text-align: left; z-index: 10;\">\n        <div style=\"color: #00b0ff; font-size: 10px; font-weight: bold; letter-spacing: 3px;\">RESERVOIR DEPTH</div>\n        <div style=\"color: #fff; font-size: 32px; font-weight: bold; font-family: monospace;\">{{msg.payload?.soil_moisture}}%</div>\n    </div>\n\n    <div style=\"width: 80%; height: 250px; background: #111; border-radius: 15px; border: 4px solid #1a1a1a; position: relative; overflow: hidden; box-shadow: inset 0 0 30px #000, 5px 5px 20px rgba(0,0,0,0.5);\">\n        \n        <div :style=\"{\n            position: 'absolute', bottom: 0, width: '100%',\n            height: (msg.payload?.soil_moisture || 0) + '%',\n            background: 'linear-gradient(to top, #005177, #00b0ff)',\n            transition: 'height 2s cubic-bezier(0.4, 0, 0.2, 1)',\n            boxShadow: '0 0 40px rgba(0, 176, 255, 0.4)'\n        }\">\n            <div class=\"water-wave wave1\"></div>\n            <div class=\"water-wave wave2\"></div>\n        </div>\n        \n        <div style=\"position: absolute; top: 0; left: 10%; width: 20%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);\"></div>\n    </div>\n\n    <style>\n        .water-wave {\n            position: absolute; top: -20px; left: -50%; width: 200%; height: 40px;\n            background: rgba(0, 176, 255, 0.5); border-radius: 35%;\n        }\n        .wave1 { animation: waveRotate 4s infinite linear; opacity: 0.7; }\n        .wave2 { animation: waveRotate 7s infinite linear; opacity: 0.4; top: -25px; }\n        @keyframes waveRotate {\n            from { transform: rotate(0deg); }\n            to { transform: rotate(360deg); }\n        }\n    </style>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1340,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bb433f743f4659ba",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "3b1686d3f8bb92af",
+        "page": "",
+        "ui": "",
+        "name": "Field Signal",
+        "order": 4,
+        "width": 3,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #080808; border-radius: 20px; border: 1px solid #222; width: 100%; height: 400px; padding: 40px; box-sizing: border-box; display: flex; justify-content: space-around; align-items: center; perspective: 1000px;\">\n    \n    <div v-for=\"item in [\n        {label: 'PH BAL', val: msg.payload?.soil_ph, color: '#ffea00', pct: (msg.payload?.soil_ph / 14 * 100)},\n        {label: 'SALT LVL', val: msg.payload?.salinity, color: '#d1d1d1', pct: (msg.payload?.salinity_percent)},\n        {label: 'LUX INT', val: msg.payload?.light_intensity, color: '#ff8c00', pct: (msg.payload?.light_percent)}\n    ]\" :key=\"item.label\" style=\"display: flex; flex-direction: column; align-items: center; gap: 20px; transform: rotateX(20deg) rotateY(-20deg);\">\n        \n        <div style=\"width: 50px; height: 200px; background: #111; position: relative; transform-style: preserve-3d; border: 1px solid #333;\">\n            <div :style=\"{\n                position: 'absolute', bottom: 0, width: '100%',\n                height: item.pct + '%',\n                backgroundColor: item.color,\n                boxShadow: '0 0 20px ' + item.color + '66',\n                transition: 'height 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'\n            }\">\n                <div :style=\"{ position: 'absolute', right: '-10px', top: 0, width: '10px', height: '100%', backgroundColor: item.color, filter: 'brightness(0.7)', transform: 'skewY(45deg)', transformOrigin: 'left' }\"></div>\n            </div>\n        </div>\n\n        <div style=\"text-align: center;\">\n            <div style=\"color: #444; font-size: 9px; font-weight: bold;\">{{item.label}}</div>\n            <div style=\"color: #fff; font-size: 16px; font-weight: bold; font-family: monospace;\">{{item.val}}</div>\n        </div>\n    </div>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1190,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "588b12201c42db18",
+        "type": "ui-template",
+        "z": "e74e963b5685fd3d",
+        "group": "90a8bef7374bc3b7",
+        "page": "",
+        "ui": "",
+        "name": "Bio-Processor",
+        "order": 2,
+        "width": 3,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n  <div style=\"background: #000; width: 100%; height: 500px; border-radius: 40px; border: 1px solid #1a1a1a; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 100px #050505;\">\n    \n    <svg style=\"position: absolute; width: 0; height: 0;\">\n      <defs>\n        <filter id=\"goo\">\n          <feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"10\" result=\"blur\" />\n          <feColorMatrix in=\"blur\" mode=\"matrix\" values=\"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7\" result=\"goo\" />\n        </filter>\n      </defs>\n    </svg>\n\n    <div :style=\"{\n        width: '80%', height: '120px', background: 'rgba(255,255,255,0.02)', \n        borderRadius: '60px', border: '2px solid #222', position: 'relative', \n        overflow: 'hidden', filter: 'url(#goo)'\n    }\">\n        <div v-for=\"n in 8\" :key=\"n\" class=\"blob\"\n            :style=\"{\n                left: (n * 12) + '%',\n                width: (20 + Math.random() * 40) + 'px',\n                height: (20 + Math.random() * 40) + 'px',\n                background: msg.payload?.salinity > 1.5 ? '#ff3d00' : '#00e676',\n                animationDuration: (msg.payload?.pump_status === 1 ? '1s' : '4s'),\n                opacity: 0.6\n            }\"></div>\n            \n        <div :style=\"{\n            position: 'absolute', bottom: 0, width: '100%', \n            height: msg.payload?.soil_moisture + '%',\n            background: '#00b0ff', opacity: 0.4, transition: 'height 2s ease'\n        }\"></div>\n    </div>\n\n    <div style=\"position: absolute; top: 10%; right: 10%; text-align: right; border-right: 2px solid #00b0ff; padding-right: 15px;\">\n        <div style=\"color: #444; font-size: 10px; letter-spacing: 3px;\">FLOW_TURBULENCE</div>\n        <div style=\"color: #fff; font-size: 32px; font-weight: 900; font-family: monospace;\">{{msg.payload?.pump_status === 1 ? 'MAX' : 'NOM'}}</div>\n    </div>\n\n    <style>\n        .blob {\n            position: absolute; top: 30%; border-radius: 50%;\n            animation: flowMove infinite linear;\n        }\n        @keyframes flowMove {\n            0% { transform: translateX(-100px) scale(1); }\n            50% { transform: translateX(50px) scale(1.5); }\n            100% { transform: translateX(200px) scale(1); }\n        }\n    </style>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1020,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3864cace8f5b5a3e",
+        "type": "debug",
+        "z": "e74e963b5685fd3d",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "538f1ca90b887f3a",
+        "type": "debug",
+        "z": "e74e963b5685fd3d",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e95b18390aa110a0",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
