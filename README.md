@@ -70,7 +70,7 @@ established channel. The integration of the clouds and real-time data was succes
 and verified with the help of the graphical visualisations of the soil moisture and 
 temperature.
 <p align="center">
-  <img src="Images/ThingSpeak graphs .png" width="700"/>
+  <img src="Images/ThingSpeak graphs .png" width="800"/>
 </p>
 
 - Data Processing and Control Logic : Node-RED was used as a data processing and control logic. Sensors data have been 
@@ -78,8 +78,8 @@ collected and presented in payloads and farm logic has been executed to operate
 irrigation conditions. Dashboard elements such as gauges and trends were used to 
 monitor system parameters.
 <p align="center">
-  <img src="Images/Node-RED flow .png" width="700"/>
+  <img src="Images/Node-RED flow .png" width="800"/>
 </p>
 <p align="center">
-  <img src="Images/Node-RED dashboard.png" width="700"/>
+  <img src="Images/Node-RED dashboard.png" width="800"/>
 </p>
