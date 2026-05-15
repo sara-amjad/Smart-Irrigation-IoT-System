@@ -177,3 +177,5 @@ filter environmental data and analyse system behaviour in a more efficient manne
 <p align="center">
   <img src="Images/Power BI auto-refresh setup .png" width="600"/>
 </p>
+
+[Power BI Link to Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZTkxMmQ0ZTctYzU4YS00MDQ3LWEwMDktNzRjOWFkMTAwNTgxIiwidCI6IjgwMWU5ZjhjLThlMDYtNGFjMC05NjRlLWJkZDRkZGRhOGM4NiIsImMiOjl9)
