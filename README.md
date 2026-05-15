@@ -50,7 +50,7 @@ parameters with the MCU-PT microcontroller. The DLG100 gateway became linked
 with aggregating sensor data and MQTT service (SBC-PT) was set up to allow real 
 time communication between devices and the gateway.
 <p align="center">
-  <img src="Images/IoT system setup.png" width="700"/>
+  <img src="Images/IoT system setup.png" width="800"/>
 </p>
 
 - Cloud Channel and API Configuration: The ThingSpeak was setup as a cloud channel and had several data fields which 
@@ -59,10 +59,10 @@ pump status. Read and write API keys were generated which will aid in securing
 communication between the system and the cloud platform. 
 
 <p align="center">
-  <img src="Images/ThingSpeak API key configuration.png" width="700"/>
+  <img src="Images/ThingSpeak API key configuration.png" width="600"/>
 </p>
 <p align="center">
-  <img src="Images/ThingSpeak channel setup .png" width="700"/>
+  <img src="Images/ThingSpeak channel setup .png" width="600"/>
 </p>
 
 - Real-Time Data Monitoring : The IoT system allowed ensuring that the information would always be available in the 
