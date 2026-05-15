@@ -41,3 +41,4 @@ The system follows a **three-layer IoT architecture**:
 4. ⚙ Node-RED processes irrigation rules  
 5. 🚰 Automated irrigation control triggered  
 6. 📊 Power BI visualizes system performance  
+
